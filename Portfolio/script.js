@@ -353,25 +353,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ===== CONTACT FORM =====
+  // Sends via Formspree — sign up free at https://formspree.io, create a
+  // form, and paste your form ID below in place of YOUR_FORM_ID.
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
   window.handleForm = function (e) {
     e.preventDefault();
-    const btn     = e.target.querySelector(".form-submit-btn");
+    const form    = e.target;
+    const btn     = form.querySelector(".form-submit-btn");
     const success = document.getElementById("form-success");
+    const errorEl = document.getElementById("form-error");
+
+    if (success) success.style.display = "none";
+    if (errorEl) errorEl.style.display = "none";
+
     if (btn) {
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
       btn.disabled = true;
     }
-    setTimeout(function () {
-      if (btn) {
-        btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+
+    fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Form submission failed");
+        if (btn) btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+        if (success) success.style.display = "block";
+        form.reset();
+      })
+      .catch(function () {
+        if (btn) btn.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+        if (errorEl) errorEl.style.display = "block";
+      })
+      .finally(function () {
         setTimeout(function () {
-          btn.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
-          btn.disabled  = false;
+          if (btn) {
+            btn.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+            btn.disabled  = false;
+          }
         }, 3000);
-      }
-      if (success) success.style.display = "block";
-      e.target.reset();
-    }, 1500);
+      });
   };
 
 
