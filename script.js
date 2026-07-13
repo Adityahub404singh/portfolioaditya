@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ===== CONTACT FORM =====
   // Sends via Formspree — sign up free at https://formspree.io, create a
   // form, and paste your form ID below in place of YOUR_FORM_ID.
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqerkanb";
 
   window.handleForm = function (e) {
     e.preventDefault();
