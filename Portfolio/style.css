@@ -3,8 +3,9 @@
    Ultra Premium Dark Theme with Gold Accents
    ============================================================ */
 
-/* ===== GOOGLE FONTS ===== */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ===== GOOGLE FONTS =====
+   Loaded via <link> in HTML head (preconnect + non-blocking) —
+   do NOT @import here, it duplicates the request and blocks CSS parsing. */
 
 /* ===== CSS VARIABLES ===== */
 :root {
@@ -85,6 +86,15 @@ a { text-decoration: none; color: inherit; }
 body.cursor-hover #cursor { width: 22px; height: 22px; background: var(--gold2); }
 body.cursor-hover #cursor-trail { width: 55px; height: 55px; border-color: rgba(255,107,0,0.4); }
 
+/* Touch devices: no mousemove events, so the custom cursor never moves.
+   Fall back to the real cursor and hide the (stuck) custom one. */
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+  #cursor, #cursor-trail { display: none; }
+  .proj-btn, .btn-hero-primary, .btn-hero-outline, .form-submit-btn,
+  .resume-dl-btn, .theme-btn, .social-icon { cursor: pointer; }
+}
+
 /* ===== PRELOADER ===== */
 #preloader {
   position: fixed; inset: 0;
@@ -98,7 +108,7 @@ body.cursor-hover #cursor-trail { width: 55px; height: 55px; border-color: rgba(
 .pre-logo {
   font-family: var(--font-h); font-size: 3.5rem; font-weight: 800;
   background: linear-gradient(135deg, var(--gold), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   letter-spacing: -2px;
   animation: preLogoPulse 1.4s ease-in-out infinite;
 }
@@ -142,7 +152,7 @@ body.cursor-hover #cursor-trail { width: 55px; height: 55px; border-color: rgba(
 }
 .brand-aps {
   background: linear-gradient(135deg, var(--gold), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
 }
 .brand-dot { color: var(--gold); font-size: 2rem; line-height: 1; }
@@ -266,7 +276,7 @@ body.cursor-hover #cursor-trail { width: 55px; height: 55px; border-color: rgba(
 }
 .hero-name-grad {
   background: linear-gradient(120deg, #FFD966 0%, var(--gold) 40%, var(--gold2) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-name-outline {
   -webkit-text-stroke: 2px rgba(255,184,0,0.5);
@@ -333,7 +343,7 @@ body.cursor-hover #cursor-trail { width: 55px; height: 55px; border-color: rgba(
 .hstat-num {
   font-family: var(--font-h); font-size: 2rem; font-weight: 800;
   background: linear-gradient(135deg, var(--gold), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hstat-label {
   font-size: 0.78rem; color: rgba(255,255,255,0.45);
@@ -655,7 +665,7 @@ footer {
 .footer-logo {
   font-family: var(--font-h); font-size: 2rem; font-weight: 800;
   background: linear-gradient(135deg, var(--gold), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   margin-bottom: 10px;
 }
 .footer-text { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
@@ -666,9 +676,13 @@ footer {
 /* ===== FLOATING SOCIALS ===== */
 .floating-socials {
   position: fixed; left: 20px; top: 50%;
-  transform: translateY(-50%);
   display: flex; flex-direction: column; gap: 10px;
   z-index: 500;
+  animation: floatSocialsWobble 6s ease-in-out infinite;
+}
+@keyframes floatSocialsWobble {
+  0%, 100% { transform: translateY(-50%) translateY(-8px); }
+  50%      { transform: translateY(-50%) translateY(8px); }
 }
 .social-icon {
   width: 46px; height: 46px; border-radius: 12px;

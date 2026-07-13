@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <title>Aditya Pratap Singh | AI & ML Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Resource hints: connect early to third-party origins -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload the hero background so LCP doesn't wait on CSS parse -->
+  <link rel="preload" as="image" href="images/aditya-profile.jpg">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -128,7 +138,8 @@
         <div class="about-photo-wrap">
           <div class="about-photo-ring"></div>
           <div class="about-photo-ring ring-2"></div>
-          <img src="images/aditya-profile.jpg" alt="Aditya Pratap Singh" class="about-photo">
+          <img src="images/aditya-profile.jpg" alt="Aditya Pratap Singh" class="about-photo"
+            width="400" height="400" fetchpriority="high">
           <div class="about-photo-badge">
             <i class="fas fa-graduation-cap"></i>
             B.Tech CSE
@@ -279,7 +290,7 @@
       <div class="col-lg-6 reveal reveal-delay-1">
         <div class="proj-card featured">
           <div class="proj-img-wrap">
-            <img src="images/skillswap.png" alt="SkillSwap"
+            <img src="images/skillswap.png" alt="SkillSwap" loading="lazy" decoding="async"
               onerror="this.src='https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=700&q=80'">
             <div class="proj-img-overlay"></div>
             <div class="proj-live-badge"><span class="live-dot"></span> Live</div>
@@ -295,10 +306,10 @@
               <span>React</span><span>Vercel</span><span>JS</span>
             </div>
             <div class="proj-links">
-              <a href="https://skillswap-fawn-mu.vercel.app/" target="_blank" class="proj-btn primary">
+              <a href="https://skillswap-fawn-mu.vercel.app/" target="_blank" rel="noopener" class="proj-btn primary">
                 <i class="fas fa-external-link-alt"></i> Live Demo
               </a>
-              <a href="https://github.com/Adityahub404singh" target="_blank" class="proj-btn ghost">
+              <a href="https://github.com/Adityahub404singh" target="_blank" rel="noopener" class="proj-btn ghost">
                 <i class="fab fa-github"></i> GitHub
               </a>
             </div>
@@ -310,7 +321,7 @@
       <div class="col-lg-6 reveal reveal-delay-2">
         <div class="proj-card featured ai-card">
           <div class="proj-img-wrap">
-            <img src="images/automation-ai.jpg" alt="Automation AI"
+            <img src="images/automation-ai.jpg" alt="Automation AI" loading="lazy" decoding="async"
               onerror="this.src='https://images.unsplash.com/photo-1677442136019-21780ecad995?w=700&q=80'">
             <div class="proj-img-overlay"></div>
             <div class="proj-live-badge wip-badge-top"><span class="wip-dot-top"></span> In Progress</div>
@@ -326,7 +337,7 @@
               <span>AI</span><span>Automation</span><span>Vercel</span>
             </div>
             <div class="proj-links">
-              <a href="https://youtubeautoaiproductdesign5.vercel.app/" target="_blank" class="proj-btn primary">
+              <a href="https://youtubeautoaiproductdesign5.vercel.app/" target="_blank" rel="noopener" class="proj-btn primary">
                 <i class="fas fa-external-link-alt"></i> Live Demo
               </a>
             </div>
@@ -338,7 +349,7 @@
       <div class="col-lg-4 col-md-6 reveal reveal-delay-1">
         <div class="proj-card">
           <div class="proj-img-wrap small">
-            <img src="images/tutormitra.png" alt="TutorMitra"
+            <img src="images/tutormitra.png" alt="TutorMitra" loading="lazy" decoding="async"
               onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80'">
             <div class="proj-img-overlay"></div>
             <div class="proj-category-badge">EdTech 📚</div>
@@ -348,7 +359,7 @@
             <p class="proj-desc">EdTech platform with authentication, course listings & payment integration.</p>
             <div class="proj-stack"><span>HTML</span><span>CSS</span><span>JS</span></div>
             <div class="proj-links">
-              <a href="https://github.com/Adityahub404singh" target="_blank" class="proj-btn ghost">
+              <a href="https://github.com/Adityahub404singh" target="_blank" rel="noopener" class="proj-btn ghost">
                 <i class="fab fa-github"></i> GitHub
               </a>
             </div>
@@ -360,7 +371,7 @@
       <div class="col-lg-4 col-md-6 reveal reveal-delay-2">
         <div class="proj-card">
           <div class="proj-img-wrap small">
-            <img src="images/fire-robot.jpg" alt="Fire Robot"
+            <img src="images/fire-robot.jpg" alt="Fire Robot" loading="lazy" decoding="async"
               onerror="this.src='https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=500&q=80'">
             <div class="proj-img-overlay"></div>
             <div class="proj-category-badge" style="background:rgba(239,68,68,0.9)">Hardware 🤖</div>
@@ -377,7 +388,7 @@
       <div class="col-lg-4 col-md-6 reveal reveal-delay-3">
         <div class="proj-card">
           <div class="proj-img-wrap small">
-            <img src="images/ai-project.jpg" alt="AI Project"
+            <img src="images/ai-project.jpg" alt="AI Project" loading="lazy" decoding="async"
               onerror="this.src='https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&q=80'">
             <div class="proj-img-overlay"></div>
             <div class="proj-category-badge" style="background:rgba(99,102,241,0.9)">ML 📊</div>
@@ -387,7 +398,7 @@
             <p class="proj-desc">End-to-end ML pipeline — data preprocessing, model training & deployment.</p>
             <div class="proj-stack"><span>Python</span><span>Scikit</span><span>Pandas</span></div>
             <div class="proj-links">
-              <a href="https://github.com/Adityahub404singh" target="_blank" class="proj-btn ghost">
+              <a href="https://github.com/Adityahub404singh" target="_blank" rel="noopener" class="proj-btn ghost">
                 <i class="fab fa-github"></i> GitHub
               </a>
             </div>
@@ -430,21 +441,21 @@
                 <div class="cinfo-icon"><i class="fab fa-github"></i></div>
                 <div>
                   <div class="cinfo-label">GitHub</div>
-                  <a href="https://github.com/Adityahub404singh" target="_blank" class="cinfo-val">Adityahub404singh</a>
+                  <a href="https://github.com/Adityahub404singh" target="_blank" rel="noopener" class="cinfo-val">Adityahub404singh</a>
                 </div>
               </div>
               <div class="cinfo-item">
                 <div class="cinfo-icon"><i class="fab fa-linkedin-in"></i></div>
                 <div>
                   <div class="cinfo-label">LinkedIn</div>
-                  <a href="https://www.linkedin.com/in/aditya-singh-47b218321" target="_blank" class="cinfo-val">Aditya Singh</a>
+                  <a href="https://www.linkedin.com/in/aditya-singh-47b218321" target="_blank" rel="noopener" class="cinfo-val">Aditya Singh</a>
                 </div>
               </div>
               <div class="cinfo-item">
                 <div class="cinfo-icon"><i class="fab fa-instagram"></i></div>
                 <div>
                   <div class="cinfo-label">Instagram</div>
-                  <a href="https://www.instagram.com/" target="_blank" class="cinfo-val">@aditya</a>
+                  <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="cinfo-val">@aditya</a>
                 </div>
               </div>
             </div>
@@ -504,15 +515,15 @@
 
 <!-- ===== FLOATING SOCIAL ICONS ===== -->
 <div class="floating-socials">
-  <a href="https://www.instagram.com/" target="_blank" class="social-icon" title="Instagram">
+  <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-icon" title="Instagram">
     <i class="fab fa-instagram"></i>
     <span class="social-tooltip">Instagram</span>
   </a>
-  <a href="https://www.linkedin.com/in/aditya-singh-47b218321" target="_blank" class="social-icon" title="LinkedIn">
+  <a href="https://www.linkedin.com/in/aditya-singh-47b218321" target="_blank" rel="noopener" class="social-icon" title="LinkedIn">
     <i class="fab fa-linkedin-in"></i>
     <span class="social-tooltip">LinkedIn</span>
   </a>
-  <a href="https://github.com/Adityahub404singh" target="_blank" class="social-icon" title="GitHub">
+  <a href="https://github.com/Adityahub404singh" target="_blank" rel="noopener" class="social-icon" title="GitHub">
     <i class="fab fa-github"></i>
     <span class="social-tooltip">GitHub</span>
   </a>
@@ -522,7 +533,7 @@
   </a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>

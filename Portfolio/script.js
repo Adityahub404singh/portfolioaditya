@@ -15,49 +15,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ===== CUSTOM CURSOR =====
+  // Only run on devices with a real mouse (touch has no mousemove,
+  // so on phones this would just hide the cursor forever — skip it).
+  const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   const cursor = document.getElementById("cursor");
   const trail  = document.getElementById("cursor-trail");
 
   let mouseX = 0, mouseY = 0;
   let trailX = 0, trailY = 0;
+  let cursorRAFQueued = false;
 
-  document.addEventListener("mousemove", function (e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    if (cursor) {
-      cursor.style.left = mouseX + "px";
-      cursor.style.top  = mouseY + "px";
-    }
-  });
+  if (hasFinePointer) {
+    document.addEventListener("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      // Batch the DOM write into the next frame instead of writing
+      // on every single mousemove event (which can fire 100+/sec).
+      if (!cursorRAFQueued) {
+        cursorRAFQueued = true;
+        requestAnimationFrame(function () {
+          if (cursor) {
+            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+          }
+          cursorRAFQueued = false;
+        });
+      }
+    });
 
-  // Smooth trailing cursor
-  function animateTrail() {
-    trailX += (mouseX - trailX) * 0.1;
-    trailY += (mouseY - trailY) * 0.1;
-    if (trail) {
-      trail.style.left = trailX + "px";
-      trail.style.top  = trailY + "px";
+    // Smooth trailing cursor
+    function animateTrail() {
+      trailX += (mouseX - trailX) * 0.1;
+      trailY += (mouseY - trailY) * 0.1;
+      if (trail) {
+        trail.style.transform = `translate(${trailX}px, ${trailY}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(animateTrail);
     }
-    requestAnimationFrame(animateTrail);
+    animateTrail();
+
+    // Hover effect on interactive elements
+    const interactives = document.querySelectorAll("a, button, .skill-card, .proj-card, input, textarea");
+    interactives.forEach(function (el) {
+      el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+      el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+    });
+
+    // Hide cursor when leaving window
+    document.addEventListener("mouseleave", () => {
+      if (cursor) cursor.style.opacity = "0";
+      if (trail)  trail.style.opacity  = "0";
+    });
+    document.addEventListener("mouseenter", () => {
+      if (cursor) cursor.style.opacity = "1";
+      if (trail)  trail.style.opacity  = "1";
+    });
   }
-  animateTrail();
-
-  // Hover effect on interactive elements
-  const interactives = document.querySelectorAll("a, button, .skill-card, .proj-card, input, textarea");
-  interactives.forEach(function (el) {
-    el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-    el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
-  });
-
-  // Hide cursor when leaving window
-  document.addEventListener("mouseleave", () => {
-    if (cursor) cursor.style.opacity = "0";
-    if (trail)  trail.style.opacity  = "0";
-  });
-  document.addEventListener("mouseenter", () => {
-    if (cursor) cursor.style.opacity = "1";
-    if (trail)  trail.style.opacity  = "1";
-  });
 
 
   // ===== PARTICLES CANVAS =====
@@ -67,7 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let W = canvas.width  = window.innerWidth;
     let H = canvas.height = window.innerHeight;
 
-    const PARTICLE_COUNT = 60;
+    // Fewer particles + skip the O(n^2) connecting-line pass on small
+    // screens (phones), where it does nothing visually useful anyway.
+    const isSmallScreen = window.innerWidth < 768;
+    const PARTICLE_COUNT = isSmallScreen ? 25 : 60;
     const particles = [];
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -84,19 +100,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function drawParticles() {
       ctx.clearRect(0, 0, W, H);
 
-      // Connect nearby particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,184,0,${0.08 * (1 - dist / 120)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+      // Connect nearby particles (skipped on small screens — see above)
+      if (!isSmallScreen) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(255,184,0,${0.08 * (1 - dist / 120)})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -115,9 +133,19 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fill();
       });
 
-      requestAnimationFrame(drawParticles);
+      particlesRAF = requestAnimationFrame(drawParticles);
     }
-    drawParticles();
+
+    let particlesRAF = requestAnimationFrame(drawParticles);
+
+    // Stop burning CPU/battery when the tab isn't visible.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        cancelAnimationFrame(particlesRAF);
+      } else {
+        particlesRAF = requestAnimationFrame(drawParticles);
+      }
+    });
 
     window.addEventListener("resize", function () {
       W = canvas.width  = window.innerWidth;
@@ -291,34 +319,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ===== SMOOTH HOVER ON SKILL CARDS (mouse glow) =====
-  document.querySelectorAll(".skill-card").forEach(function (card) {
-    card.addEventListener("mousemove", function (e) {
-      const rect  = card.getBoundingClientRect();
-      const x     = e.clientX - rect.left;
-      const y     = e.clientY - rect.top;
-      const glow  = card.querySelector(".skill-card-glow");
-      if (glow) {
-        glow.style.left = (x - 100) + "px";
-        glow.style.top  = (y - 100) + "px";
-      }
-    });
-  });
-
-
   // ===== PROJECT CARD TILT EFFECT =====
-  document.querySelectorAll(".proj-card").forEach(function (card) {
-    card.addEventListener("mousemove", function (e) {
-      const rect  = card.getBoundingClientRect();
-      const x     = (e.clientX - rect.left) / rect.width  - 0.5;
-      const y     = (e.clientY - rect.top)  / rect.height - 0.5;
-      card.style.transform = `translateY(-12px) rotateX(${y * -5}deg) rotateY(${x * 5}deg)`;
-      card.style.transition = "transform 0.1s ease";
+  // Both are pointer-only effects — pointless (and wasted listeners) on
+  // touch devices since touch never fires mousemove.
+  if (hasFinePointer) {
+    document.querySelectorAll(".skill-card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        const rect  = card.getBoundingClientRect();
+        const x     = e.clientX - rect.left;
+        const y     = e.clientY - rect.top;
+        const glow  = card.querySelector(".skill-card-glow");
+        if (glow) {
+          glow.style.left = (x - 100) + "px";
+          glow.style.top  = (y - 100) + "px";
+        }
+      });
     });
-    card.addEventListener("mouseleave", function () {
-      card.style.transform = "";
-      card.style.transition = "transform 0.45s cubic-bezier(0.4,0,0.2,1)";
+
+    document.querySelectorAll(".proj-card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        const rect  = card.getBoundingClientRect();
+        const x     = (e.clientX - rect.left) / rect.width  - 0.5;
+        const y     = (e.clientY - rect.top)  / rect.height - 0.5;
+        card.style.transform = `translateY(-12px) rotateX(${y * -5}deg) rotateY(${x * 5}deg)`;
+        card.style.transition = "transform 0.1s ease";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transform = "";
+        card.style.transition = "transform 0.45s cubic-bezier(0.4,0,0.2,1)";
+      });
     });
-  });
+  }
 
 
   // ===== CONTACT FORM =====
@@ -359,21 +390,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ===== FLOATING SOCIALS ANIMATION =====
-  let floatDir   = 1;
-  let floatPos   = 0;
-  const floatEls = document.querySelector(".floating-socials");
-
-  function floatSocials() {
-    if (!floatEls) return;
-    floatPos += 0.02 * floatDir;
-    if (floatPos > 1 || floatPos < -1) floatDir *= -1;
-    const baseY    = window.innerHeight / 2;
-    const offsetY  = floatPos * 8;
-    floatEls.style.top       = (baseY + offsetY) + "px";
-    floatEls.style.transform = "translateY(-50%)";
-    requestAnimationFrame(floatSocials);
-  }
-  floatSocials();
+  // Moved to a CSS @keyframes animation (see style.css) — a JS rAF loop
+  // that never stops was doing this same 8px wobble at real CPU cost.
 
 
   // ===== NAVBAR BRAND CLICK — scroll to top =====
