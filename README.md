@@ -1,16 +1,35 @@
 # APS Portfolio Studio — React + Vite
 
-A multi-page developer portfolio and private content dashboard for Aditya Pratap Singh.
+A modern, interactive, multi-page developer portfolio and private content dashboard for **Aditya Pratap Singh**. Built with React and Vite, featuring cinematic animations, interactive cursor swarm effects, project showcases, and an optional Supabase-powered admin dashboard.
 
-## Stack
-- React 19 + Vite
-- React Router
-- Framer Motion
-- Lucide icons
-- Supabase Auth + Postgres JSONB (optional cloud publishing)
+## 🌐 Live Website
+
+**[portfolioaditya-sigma.vercel.app](https://portfolioaditya-sigma.vercel.app/)**
+
+## ✨ Features
+
+- Modern and responsive portfolio design
+- Cinematic intro and background animations
+- Interactive cursor swarm with particle effects
+- Smooth scrolling and page transitions
+- Dedicated About, Projects, Journey, and Contact pages
+- Project showcase with images and descriptions
+- Private admin dashboard
+- Supabase authentication and cloud publishing (optional)
 - Local browser storage for preview mode
+- Responsive layout for desktop, tablet, and mobile
 
-## Folder structure
+## 🛠️ Tech Stack
+
+- **Frontend:** React 19 + Vite
+- **Routing:** React Router
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **Backend / Database:** Supabase Auth + PostgreSQL JSONB
+- **Styling:** CSS3
+- **Deployment:** Vercel
+
+## 📁 Project Structure
 
 ```text
 aps-portfolio-studio/
@@ -22,7 +41,9 @@ aps-portfolio-studio/
 │   │   ├── tutormitra.jpg
 │   │   ├── ai-project.jpg
 │   │   └── fire-robot.jpg
+│   ├── favicon.svg
 │   └── resume.pdf
+│
 ├── src/
 │   ├── components/
 │   │   ├── Footer.jsx
@@ -30,12 +51,18 @@ aps-portfolio-studio/
 │   │   ├── PortraitStage.jsx
 │   │   ├── ProjectCard.jsx
 │   │   ├── SectionHeading.jsx
-│   │   ├── SiteLayout.jsx
-│   │   └── StatCard.jsx
+│   │   ├── ScrollStoryController.jsx
+│   │   └── vfx/
+│   │       ├── CinematicIntro.jsx
+│   │       └── CursorSwarm.jsx
+│   │
 │   ├── hooks/
+│   │   ├── MotionPreference.jsx
 │   │   └── usePortfolio.jsx
+│   │
 │   ├── lib/
 │   │   └── supabase.js
+│   │
 │   ├── pages/
 │   │   ├── About.jsx
 │   │   ├── AdminDashboard.jsx
@@ -43,79 +70,107 @@ aps-portfolio-studio/
 │   │   ├── Contact.jsx
 │   │   ├── Home.jsx
 │   │   ├── Journey.jsx
-│   │   ├── NotFound.jsx
-│   │   └── Projects.jsx
+│   │   ├── Projects.jsx
+│   │   └── NotFound.jsx
+│   │
 │   ├── App.jsx
-│   ├── data.js
 │   ├── main.jsx
-│   └── styles.css
+│   ├── data.js
+│   ├── styles.css
+│   └── cinematic-background.css
+│
 ├── supabase/
 │   └── schema.sql
+│
 ├── .env.example
 ├── .gitignore
 ├── index.html
 ├── package.json
-├── vercel.json
-└── vite.config.js
+├── vite.config.js
+└── README.md
 ```
 
-## Install and run
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Adityahub404singh/portfolioaditya.git
+cd portfolioaditya
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the root directory using `.env.example` as a reference.
+
+```env
+VITE_SUPABASE_URL=YOUR_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+VITE_ADMIN_EMAIL=YOUR_ADMIN_EMAIL
+```
+
+Supabase configuration is optional for local preview mode. Never commit your actual `.env` file or service-role keys.
+
+### 4. Start development server
+
+```bash
 npm run dev
 ```
 
-Open the localhost URL printed by Vite.
-
-## Supabase setup for secure admin publishing
-
-1. Create a Supabase project.
-2. Copy `.env.example` to `.env`.
-3. Set `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and `VITE_ADMIN_EMAIL`.
-4. Open `supabase/schema.sql` in the Supabase SQL Editor.
-5. Replace `YOUR_ADMIN_EMAIL@example.com` in the SQL policies with the same admin email.
-6. Run the SQL.
-7. In Supabase Authentication, create the admin user with that email and a strong password.
-8. Restart Vite after editing `.env`.
-
-The public site reads the portfolio JSON record. Only the authenticated admin email can insert or update it through the row-level security policies.
-
-## Admin pages
-
-- `/admin` — Supabase email/password login.
-- `/admin/dashboard` — dashboard KPIs, DSA/LeetCode metrics, daily updates, project CRUD, skills, certificate uploads, achievements, timeline, profile/media settings, analytics, goals/notes, backup/import/export and account settings.
-
-The admin route intentionally requires Supabase authentication. If Supabase is not configured, the public portfolio can still be previewed using the bundled starter content, but secure admin publishing and file uploads are unavailable. Preview-mode analytics are kept in local browser storage.
-
-## Images and resume
-
-Replace files in `public/images/` and `public/resume.pdf` with your final assets while keeping the filenames unchanged. The current `hero-bg.jpg` uses the supplied full-body outdoor photo as the hero backdrop and portrait stage image.
-
-## Important data note
-
-Starter values in `src/data.js` are editable profile content. DSA, certificate and achievement lists start empty so the public portfolio does not display invented counts or credentials. Add only verified entries through Admin.
-
-## Build
+### 5. Create production build
 
 ```bash
 npm run build
+```
+
+### 6. Preview production build
+
+```bash
 npm run preview
 ```
 
-The build should be run locally after installing dependencies. This environment did not complete `npm install`, so no successful production-build claim is made here.
+## ☁️ Deployment
 
+This project is deployed using **Vercel**.
 
-## Admin workspace
+Live URL: https://portfolioaditya-sigma.vercel.app/
 
-The private `/admin` workspace includes 12 modules: Dashboard, DSA / LeetCode, Daily Updates, Projects, Skills, Certificates, Achievements, Timeline & Roadmap, Profile Settings, Analytics, Notes & Goals, and System backup/security.
+For your own deployment:
 
-## Local setup (Windows PowerShell)
+1. Import the GitHub repository into Vercel.
+2. Configure the required environment variables.
+3. Deploy the project.
+4. Vercel will build and host the application.
 
-```powershell
-cd .\aps-portfolio-studio-aditya
-npm install
-npm run dev
-```
+## 🔐 Admin Dashboard
 
-Open the local URL printed by Vite. The admin route is `/admin`.
+The project includes a private admin dashboard with optional Supabase authentication and cloud publishing.
+
+Local browser storage is available for preview mode.
+
+## 📌 Future Improvements
+
+- Performance optimization and code splitting
+- Enhanced mobile animations
+- Additional interactive visual effects
+- Improved dashboard analytics
+- More project showcases
+
+## 👨‍💻 Author
+
+**Aditya Pratap Singh**
+
+Developer Portfolio — APS Portfolio Studio
+
+- **GitHub:** [Adityahub404singh](https://github.com/Adityahub404singh)
+- **Live Portfolio:** [portfolioaditya-sigma.vercel.app](https://portfolioaditya-sigma.vercel.app/)
+
+---
+
+⭐ If you like this project, consider giving it a star on GitHub.
