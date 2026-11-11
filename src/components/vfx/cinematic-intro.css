@@ -1,0 +1,480 @@
+
+/* =========================================================
+   APS CINEMATIC INTRO — PREMIUM VFX
+   Total lifetime: 3800ms
+   ========================================================= */
+
+.aps-cinematic-intro {
+  --aps-intro-red: #f13b55;
+  --aps-intro-white: #f7f5f6;
+  --aps-intro-muted: #aaa1a5;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  color: var(--aps-intro-white);
+
+  background:
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgba(111, 20, 38, 0.34) 0%,
+      rgba(53, 13, 25, 0.16) 30%,
+      transparent 64%
+    ),
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(52, 120, 246, 0.09),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 88% 82%,
+      rgba(135, 88, 255, 0.08),
+      transparent 36%
+    ),
+    #070709;
+
+  opacity: 1;
+
+  animation:
+    aps-intro-exit 650ms cubic-bezier(0.7, 0, 0.2, 1) 3150ms forwards;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grain */
+
+.aps-cinematic-intro::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  pointer-events: none;
+  opacity: 0.12;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+
+  mix-blend-mode: soft-light;
+}
+
+/* Orbit rings */
+
+.aps-cinematic-intro::after {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  width: min(78vw, 980px);
+  aspect-ratio: 1;
+
+  border: 1px solid rgba(255, 75, 99, 0.11);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 42px rgba(255, 75, 99, 0.018),
+    0 0 0 100px rgba(104, 143, 255, 0.012),
+    inset 0 0 90px rgba(255, 75, 99, 0.025);
+
+  transform: scale(0.72) rotate(-12deg);
+
+  animation: aps-intro-orbit 5.5s ease-in-out infinite alternate;
+
+  pointer-events: none;
+}
+
+/* Canvas */
+
+.aps-cinematic-intro canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+/* Intro content */
+
+.aps-intro-copy {
+  position: relative;
+  z-index: 3;
+
+  width: min(90vw, 1040px);
+  padding: clamp(24px, 5vw, 64px);
+
+  text-align: center;
+
+  animation:
+    aps-intro-copy-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Kicker */
+
+.aps-intro-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+
+  color: #d4c5c7;
+
+  font-size: clamp(9px, 1vw, 11px);
+  letter-spacing: 0.28em;
+  line-height: 1.5;
+  font-weight: 750;
+
+  text-transform: uppercase;
+}
+
+.aps-intro-kicker i {
+  position: relative;
+
+  display: inline-block;
+  flex: 0 0 7px;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #ff4058;
+  box-shadow: 0 0 15px rgba(255, 64, 88, 0.9);
+}
+
+.aps-intro-kicker i::after {
+  content: "";
+
+  position: absolute;
+  inset: -5px;
+
+  border: 1px solid rgba(255, 64, 88, 0.48);
+  border-radius: inherit;
+
+  animation: aps-intro-pulse 1.8s ease-out infinite;
+}
+
+/* Heading */
+
+.aps-intro-copy h1 {
+  margin: clamp(22px, 3.2vw, 34px) 0 0;
+
+  color: #fff;
+
+  font-size: clamp(48px, 9.3vw, 116px);
+  line-height: 0.88;
+  letter-spacing: -0.078em;
+  font-weight: 950;
+
+  text-transform: uppercase;
+  text-wrap: balance;
+
+  text-shadow: 0 12px 60px rgba(0, 0, 0, 0.28);
+}
+
+.aps-intro-copy h1 em {
+  display: block;
+  margin-top: 0.08em;
+
+  color: var(--aps-intro-red);
+
+  font-style: normal;
+
+  text-shadow: 0 0 42px rgba(241, 59, 85, 0.13);
+}
+
+/* Supporting text */
+
+.aps-intro-copy p {
+  margin: clamp(20px, 3vw, 30px) 0 0;
+
+  color: var(--aps-intro-muted);
+
+  font-size: clamp(9px, 1vw, 11px);
+  letter-spacing: 0.3em;
+  line-height: 1.8;
+  font-weight: 700;
+}
+
+/* Progress */
+
+.aps-intro-progress {
+  position: relative;
+
+  width: min(250px, 48vw);
+  height: 2px;
+
+  margin: clamp(24px, 3.4vw, 36px) auto 0;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 0 18px rgba(241, 59, 85, 0.08);
+}
+
+.aps-intro-progress span {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff6c7e,
+      #f13b55 55%,
+      #ff9aa7
+    );
+
+  box-shadow: 0 0 12px rgba(241, 59, 85, 0.7);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  animation: aps-intro-load 3450ms linear forwards;
+}
+
+/* Skip button */
+
+.aps-intro-skip {
+  position: absolute;
+  z-index: 5;
+
+  right: clamp(18px, 4vw, 54px);
+  bottom: clamp(18px, 4vh, 42px);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 42px;
+  padding: 0 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+
+  color: #eee8ea;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+
+  cursor: pointer;
+  pointer-events: auto;
+
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.aps-intro-skip:hover {
+  color: #fff;
+
+  border-color: rgba(255, 64, 88, 0.8);
+  background: rgba(255, 64, 88, 0.1);
+
+  transform: translateY(-2px);
+}
+
+.aps-intro-skip:focus-visible {
+  outline: 2px solid #ff7185;
+  outline-offset: 4px;
+}
+
+.aps-intro-skip span {
+  color: #ff526b;
+
+  transition: transform 180ms ease;
+}
+
+.aps-intro-skip:hover span {
+  transform: translate(2px, -2px);
+}
+
+/* Animations */
+
+@keyframes aps-intro-copy-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.985);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes aps-intro-load {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes aps-intro-orbit {
+  from {
+    transform: scale(0.78) rotate(-12deg);
+  }
+
+  to {
+    transform: scale(1.04) rotate(12deg);
+  }
+}
+
+@keyframes aps-intro-pulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Exit: 3150ms delay + 650ms fade = 3800ms */
+
+@keyframes aps-intro-exit {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  99% {
+    opacity: 0;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .aps-intro-copy {
+    width: 94vw;
+  }
+
+  .aps-intro-copy h1 {
+    font-size: clamp(48px, 10vw, 86px);
+  }
+
+  .aps-intro-copy p {
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .aps-cinematic-intro::after {
+    width: 115vw;
+  }
+
+  .aps-intro-copy {
+    width: 94vw;
+    padding: 20px 12px;
+  }
+
+  .aps-intro-copy h1 {
+    font-size: clamp(39px, 12vw, 66px);
+    letter-spacing: -0.07em;
+    line-height: 0.94;
+  }
+
+  .aps-intro-copy p {
+    max-width: 290px;
+    margin-inline: auto;
+    letter-spacing: 0.16em;
+  }
+
+  .aps-intro-skip {
+    right: 16px;
+    bottom: 16px;
+
+    min-height: 38px;
+    padding-inline: 13px;
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 360px) {
+  .aps-intro-copy h1 {
+    font-size: 38px;
+  }
+
+  .aps-intro-kicker {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .aps-intro-copy p {
+    font-size: 9px;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .aps-cinematic-intro {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .aps-cinematic-intro *,
+  .aps-cinematic-intro::before,
+  .aps-cinematic-intro::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .aps-intro-copy {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .aps-intro-progress span {
+    transform: scaleX(1);
+  }
+
+  .aps-intro-kicker i::after {
+    display: none;
+  }
+}

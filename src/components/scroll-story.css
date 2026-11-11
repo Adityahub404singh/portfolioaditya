@@ -1,0 +1,16 @@
+/* Scroll-story visual language: masked reveals and subtle agent-driven emphasis. */
+main section[data-story-section] { --aps-story-progress: 0; }
+main section[data-story-section] img { will-change: clip-path, transform, filter; }
+main section[data-story-section] h1,
+main section[data-story-section] h2,
+main section[data-story-section] h3 { will-change: clip-path, transform; }
+main section[data-story-section] p,
+main section[data-story-section] .panel,
+main section[data-story-section] .skill-item,
+main section[data-story-section] .project-card { will-change: clip-path, transform, opacity; }
+@media (max-width: 700px) {
+  main section[data-story-section] img { will-change: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  main section[data-story-section] * { will-change: auto !important; }
+}

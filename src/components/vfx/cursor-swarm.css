@@ -1,0 +1,193 @@
+
+/* =========================================================
+   APS CURSOR SWARM — PREMIUM VFX
+   Decorative canvas layer with DOM-targeted particles.
+   ========================================================= */
+
+/* Main fixed canvas layer */
+
+.aps-cursor-swarm {
+  position: fixed !important;
+  inset: 0 !important;
+
+  z-index: 42 !important;
+
+  display: block;
+
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  pointer-events: none !important;
+
+  overflow: hidden;
+
+  contain: strict;
+
+  opacity: 0.86;
+
+  mix-blend-mode: screen;
+  filter: saturate(1.28) contrast(1.14) brightness(1.06);
+
+  background: transparent;
+}
+
+/* Canvas must never intercept user interaction */
+
+.aps-cursor-swarm,
+.aps-cursor-swarm * {
+  pointer-events: none !important;
+}
+
+/* =========================================================
+   HEADING DELIVERY PROGRESS
+   ========================================================= */
+
+.aps-story-heading {
+  position: relative;
+  isolation: isolate;
+}
+
+.aps-story-heading::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -0.16em;
+
+  width: min(100%, 8rem);
+  height: 2px;
+
+  transform:
+    scaleX(var(--aps-delivery-progress, 0));
+
+  transform-origin: left center;
+
+  opacity: 0.7;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff5a70,
+      #8758ff,
+      transparent
+    );
+
+  filter: drop-shadow(0 0 6px #ff5a7066);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   INTERACTION SAFETY
+   ========================================================= */
+
+.aps-cursor-swarm canvas {
+  pointer-events: none !important;
+}
+
+/* =========================================================
+   MOBILE — CLEAN READING EXPERIENCE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .aps-cursor-swarm {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .aps-cursor-swarm {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .aps-story-heading::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   USER MOTION PREFERENCE
+   ========================================================= */
+
+html[data-motion="off"] .aps-cursor-swarm {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* =========================================================
+   ADMIN DASHBOARD — NO DECORATIVE SWARM
+   ========================================================= */
+
+.admin-app .aps-cursor-swarm {
+  display: none !important;
+}
+
+
+/* =========================================================
+   CURSOR-REACTIVE DOM SURFACE — FAST, CONTROLLED RESPONSE
+   Individual translate/rotate properties preserve existing
+   transform-based hover and entrance animations.
+   ========================================================= */
+
+.aps-cursor-reactive {
+  --aps-cursor-shift-x: 0px;
+  --aps-cursor-shift-y: 0px;
+  --aps-cursor-tilt: 0deg;
+  --aps-cursor-depth: 0;
+
+  translate: var(--aps-cursor-shift-x) var(--aps-cursor-shift-y);
+  backface-visibility: hidden;
+  rotate: var(--aps-cursor-tilt);
+  transform-style: preserve-3d;
+  will-change: translate, rotate;
+}
+
+.aps-cursor-reactive:is(h1, h2, h3, p) {
+  text-shadow: 0 0 calc(var(--aps-cursor-depth) * 10px)
+    rgba(135, 88, 255, 0.20);
+}
+
+.aps-cursor-reactive:is(img) {
+  filter: drop-shadow(0 0 calc(var(--aps-cursor-depth) * 10px)
+    rgba(52, 120, 246, 0.2));
+}
+
+.aps-cursor-reactive:is(
+  .aps-project-card, .project-card, .skill-card, .aps-skill-card,
+  .stat-card, .aps-stat-card, .aps-toolkit-card
+) {
+  box-shadow: 0 0 calc(var(--aps-cursor-depth) * 22px)
+    rgba(135, 88, 255, 0.20);
+}
+
+.aps-cursor-reactive:is(.portrait-orbit, .hero-vignette, .hero-bg-photo, .portrait-glow) {
+  opacity: calc(1 - var(--aps-cursor-depth) * 0.025);
+}
+
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .aps-cursor-reactive {
+    translate: none !important;
+    rotate: none !important;
+    will-change: auto;
+  }
+}
+
+html[data-motion="off"] .aps-cursor-reactive {
+  translate: none !important;
+  rotate: none !important;
+  will-change: auto;
+}
