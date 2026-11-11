@@ -1,0 +1,50 @@
+APS PORTFOLIO STUDIO — ADITYA
+==============================
+
+Public site:
+- Home, About, Projects, Journey, Contact
+- Cinematic dark editorial styling with crimson accent
+- User portrait in the foreground and landscape portrait as background
+- Gentle 3D tilt/float motion with reduced-motion support
+- Project category filtering and project links
+- Public DSA, certificates, achievements, timeline, skills and daily build log
+
+Private admin (/admin):
+1. Dashboard
+2. DSA / LeetCode
+3. Daily Updates
+4. Projects (add/edit/delete)
+5. Skills Overview
+6. Certificates (file upload)
+7. Achievements
+8. Timeline & Roadmap
+9. Profile Settings (photo and resume upload)
+10. Analytics (page views and project clicks)
+11. Notes & Goals
+12. System (JSON backup/import, CSV export, password/settings)
+
+Stack:
+React + Vite + React Router + Framer Motion + Lucide + Supabase
+
+Windows PowerShell:
+1. Extract the ZIP.
+2. Open terminal inside aps-portfolio-studio-aditya.
+3. Run:
+   npm install
+   npm run dev
+4. Open the localhost URL printed by Vite.
+
+Supabase:
+- Copy .env.example to .env and fill the Supabase URL, anon key and admin email.
+- Run supabase/schema.sql in Supabase SQL Editor.
+- Replace YOUR_ADMIN_EMAIL@example.com in the SQL policies with the exact admin email.
+- Create the matching Supabase Auth user.
+- Configure the public Storage bucket portfolio-assets (the schema creates it).
+
+Notes:
+- Without Supabase, the public site works with bundled starter content and local browser storage.
+- Local preview admin login is intentionally disabled; it is not a secure authentication substitute.
+- LeetCode rating/streak are manually entered, not automatically synced.
+- Analytics counts page-view and project-click events; it does not claim unique visitor identities.
+- Replace any starter/demo image or project details before publishing if they are not yours.
+- A production build has not been verified in this environment because npm dependency installation timed out.
