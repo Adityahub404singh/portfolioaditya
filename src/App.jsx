@@ -10,6 +10,8 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import AnalyticsTracker from "./components/AnalyticsTracker";
+import CursorStage from "./components/vfx/CursorStage";
+import { MotionPreferenceProvider } from "./hooks/MotionPreference";
 
 // Shared cinematic photo background for every route.
 import "./cinematic-background.css";
@@ -17,7 +19,10 @@ import "./cinematic-background.css";
 export default function App() {
   return (
     <PortfolioProvider>
+      <MotionPreferenceProvider>
       <AnalyticsTracker />
+      {/* One persistent cursor engine for the whole app (not per page). */}
+      <CursorStage />
 
       <Routes>
         <Route element={<SiteLayout />}>
@@ -33,6 +38,7 @@ export default function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </MotionPreferenceProvider>
     </PortfolioProvider>
   );
 }
