@@ -1,0 +1,14 @@
+APS portfolio hero reference update
+
+Replace:
+- src/pages/Home.jsx
+- src/styles.css
+
+Important asset:
+- The hero now loads the black-shirt portrait from /images/profile.jpg.
+- Ensure the existing file is at public/images/profile.jpg.
+- The separate floating blue-jacket portrait layer has been removed from Home.jsx.
+- Keep the existing project assets and dependencies unchanged.
+
+Run:
+npm run dev
