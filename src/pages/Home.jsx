@@ -203,7 +203,7 @@ function ProfileStage({ profile, name, portraitStyle }) {
   const [failed, setFailed] = useState(false);
   // Transparent cutout supplied for the cinematic 3D hero.
   // Keep the admin-managed profile photo untouched for other pages.
-  const photo = safeImageUrl(profile.photo || profile.profileImage || profile.avatar || profile.image || "/images/profile.jpg");
+  const photo = "/images/profile.jpg";
 
   return (
     <div className="aps-profile-stage" aria-label={`${name} profile photograph`}>
@@ -2369,6 +2369,119 @@ function HomeStyles() {
         .aps-skill-grid-premium .aps-skill-card,.aps-skill-filter,.aps-dsa-action { transition:none !important; }
       }
 
+      /* ============================================================
+         HERO REFINEMENT — editorial reference-inspired composition
+         Full-bleed red wordmark, clean portrait blend, no photo card.
+         ============================================================ */
+      .aps-home .aps-hero-cinematic {
+        min-height: min(900px, calc(100svh - 76px));
+        padding-top: 22px;
+        padding-bottom: 34px;
+        background:
+          radial-gradient(ellipse at 70% 46%, rgba(160, 15, 34, .23), transparent 48%),
+          linear-gradient(115deg, #070709 0%, #0b080a 55%, #13070a 100%) !important;
+      }
+      .aps-home .aps-hero-word {
+        z-index: 1;
+        top: 48%;
+        left: 51%;
+        width: max-content;
+        max-width: none;
+        transform: translate(-50%, -50%);
+        color: rgba(226, 34, 55, .78) !important;
+        -webkit-text-stroke: 0 !important;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: clamp(150px, 25.5vw, 390px);
+        line-height: .78;
+        letter-spacing: -.055em;
+        text-shadow: 0 12px 70px rgba(190, 15, 38, .2);
+        opacity: .92;
+        mix-blend-mode: screen;
+      }
+      .aps-home .aps-hero-grid {
+        position: relative;
+        z-index: 2;
+        width: min(1440px, 90%);
+        min-height: clamp(570px, 72vh, 720px);
+        grid-template-columns: minmax(360px, .88fr) minmax(0, 1.12fr);
+        gap: clamp(12px, 2.2vw, 34px);
+        align-items: end;
+      }
+      .aps-home .aps-hero-copy {
+        z-index: 5;
+        max-width: 590px;
+        padding: 76px 0 54px;
+      }
+      .aps-home .aps-hero-title {
+        font-size: clamp(58px, 7.1vw, 104px);
+        line-height: .86;
+        letter-spacing: -.075em;
+        text-wrap: balance;
+      }
+      .aps-home .aps-profile-stage {
+        width: min(100%, 700px);
+        height: clamp(570px, 73vh, 720px);
+        margin: 0 auto;
+        overflow: visible;
+        filter: drop-shadow(0 28px 55px rgba(0,0,0,.34));
+      }
+      .aps-home .aps-profile-photo-frame.aps-profile-card-frame {
+        inset: 0 8% 0 5%;
+        overflow: visible;
+        display: block;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+      }
+      .aps-home .aps-profile-photo-frame.aps-profile-card-frame::after { display: none !important; }
+      .aps-home .aps-profile-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center bottom;
+        mix-blend-mode: screen;
+        filter: brightness(1.08) contrast(1.08) saturate(1.02);
+        transform: none !important;
+      }
+      .aps-home .aps-profile-stage::before {
+        inset: 18% 8% 0;
+        background: radial-gradient(ellipse at 50% 45%, rgba(229, 35, 58, .22), transparent 68%);
+        filter: blur(48px);
+      }
+      .aps-home .aps-profile-orbit { border-color: rgba(255, 66, 88, .24); }
+      .aps-home .aps-orbit-b { border-color: rgba(255,255,255,.1); }
+      .aps-home .aps-photo-edge { display: none; }
+      .aps-home .aps-photo-caption { left: 27%; bottom: 8%; }
+      .aps-home .aps-chip-top { top: 18%; right: 0; }
+      .aps-home .aps-chip-left { bottom: 27%; left: -2%; }
+      .aps-home .aps-chip-bottom { bottom: 8%; right: 0; }
+      .aps-home .aps-hero-background-vignette {
+        background: linear-gradient(90deg, rgba(5,5,8,.82), rgba(5,5,8,.34) 52%, rgba(5,5,8,.12) 78%, rgba(5,5,8,.52)),
+          linear-gradient(180deg, rgba(5,5,8,.08), transparent 60%, #08080b 100%);
+      }
+      .aps-home .aps-hero-foot { position: relative; z-index: 4; }
+      @media (max-width: 900px) {
+        .aps-home .aps-hero-word { top: 49%; left: 55%; font-size: 27vw; opacity: .48; }
+        .aps-home .aps-hero-grid { grid-template-columns: 1fr; min-height: 0; gap: 0; }
+        .aps-home .aps-hero-copy { padding: 44px 0 0; }
+        .aps-home .aps-profile-stage { height: min(570px, 68vw); min-height: 390px; margin-top: -8px; }
+        .aps-home .aps-profile-photo-frame.aps-profile-card-frame { inset: 0 15% 0; }
+      }
+      @media (max-width: 600px) {
+        .aps-home .aps-hero-cinematic { min-height: auto; padding-top: 16px; }
+        .aps-home .aps-hero-word { top: 58%; left: 50%; font-size: 26vw; opacity: .38; }
+        .aps-home .aps-hero-grid { width: 88%; }
+        .aps-home .aps-hero-title { font-size: clamp(54px, 15vw, 82px); }
+        .aps-home .aps-profile-stage { height: 430px; min-height: 0; margin-top: -10px; }
+        .aps-home .aps-profile-photo-frame.aps-profile-card-frame { inset: 0 8% 0; }
+        .aps-home .aps-stage-chip { transform: scale(.82); transform-origin: center; }
+        .aps-home .aps-chip-left { left: -8%; }
+        .aps-home .aps-chip-top { right: -7%; }
+        .aps-home .aps-chip-bottom { right: -6%; }
+        .aps-home .aps-photo-caption { left: 18%; bottom: 5%; font-size: 7px; }
+      }
 
     `}
       </style>
